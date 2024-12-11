@@ -1,0 +1,4 @@
+# Include .env in .gitignore file to ensure sensitive data is not pushed to version control (e.g., GitHub) 
+.env
+node_modules/
+.log
