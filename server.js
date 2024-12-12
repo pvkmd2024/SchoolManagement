@@ -1,8 +1,18 @@
 const express = require("express");
-const mysql = require("mysql2");
 const app = express();
-const port = 3000;
+
+const studentsRoute = require("./routes/studentsRoute");
+const coursesRoute = require("./routes/coursesRoute");
+const enrolmentsRoute = require("./routes/enrolmentsRoute");
+
+const PORT = 3000;
 
 app.use(express.json());
 
-const 
+app.use("/students", studentsRoute);
+app.use("/courses", coursesRoute);
+app.use("/enrolments", enrolmentsRoute);
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost: ${PORT}`);
+});
