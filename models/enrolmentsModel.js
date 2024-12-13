@@ -7,6 +7,15 @@ FROM enrolments e
 JOIN students s ON e.student_id = s.student_id
 JOIN courses c ON e.course_id = c.course_id`
   );
+
+const getEnrolmentsByCourse = (courseId) =>
+  db.query(
+    `SELECT s.first_name, s.last_name, e.enrolment_date
+     FROM enrolments e
+     JOIN students s ON e.student_id = s.student_id
+     WHERE e.course_id = ?`,
+    [courseId]
+  );
 const createEnrolment = (data) =>
   db.query("INSERT INTO enrolments SET ?", data);
 
@@ -15,6 +24,8 @@ const deleteEnrolment = (id) =>
 
 module.exports = {
   getAllEnrolments,
+
+  getEnrolmentsByCourse,
   createEnrolment,
   deleteEnrolment,
 };

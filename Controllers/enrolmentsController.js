@@ -10,6 +10,23 @@ const getAllEnrolments = async (req, res) => {
   }
 };
 
+const getEnrolmentsByCourse = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const [enrolments] = await enrolmentsModel.getEnrolmentsByCourse(courseId);
+
+    if (enrolments.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No enrolments found for this course" });
+    }
+
+    res.json(enrolments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const createEnrolment = async (req, res) => {
   try {
     const { student_id, course_id, enrolment_date } = req.body;
@@ -46,6 +63,8 @@ const deleteEnrolment = async (req, res) => {
 
 module.exports = {
   getAllEnrolments,
+
+  getEnrolmentsByCourse,
   createEnrolment,
   deleteEnrolment,
 };
