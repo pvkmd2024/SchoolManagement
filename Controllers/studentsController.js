@@ -1,5 +1,12 @@
 const studentsModel = require("../models/studentsModel");
+// getAllStudents:
 
+// Handles GET requests to retrieve a paginated list of students.
+// Parameters:
+// page: Current page number (from the query string).
+// limit: Number of records per page (default: 5).
+// Calculates the offset ((page - 1) * limit) for pagination.
+// Queries for student data (getAllStudents) and total student count (getTotalStudents) concurrently using Promise.all.
 const getAllStudents = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -24,7 +31,11 @@ const getAllStudents = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+// getStudentById:
 
+// Handles GET requests to retrieve a specific student by their ID.
+// Uses getStudentById to query the database.
+// Returns 404 if the student isn't found.
 const getStudentById = async (req, res) => {
   try {
     const [student] = await studentsModel.getStudentById(req.params.id);
@@ -35,7 +46,13 @@ const getStudentById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+// createStudent:
 
+// Handles POST requests to create a new student.
+// Expects the request body to contain:
+// first_name, last_name, email, phone_number, date_of_birth.
+// Inserts the new student using createStudent.
+// Responds with the newly created student's ID and details.
 const createStudent = async (req, res) => {
   try {
     const { first_name, last_name, email, phone_number, date_of_birth } =
@@ -59,6 +76,12 @@ const createStudent = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+// updateStudent:
+
+// Handles PUT requests to update a student's details by ID.
+// Expects an updated student object in the request body.
+// Updates the student record using updateStudent.
+// Returns 404 if the student ID doesn't exist.
 const updateStudent = async (req, res) => {
   try {
     const [result] = await studentsModel.updateStudent(req.params.id, req.body);
@@ -69,7 +92,11 @@ const updateStudent = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+// deleteStudent:
 
+// Handles DELETE requests to delete a student by ID.
+// Uses deleteStudent to remove the record.
+// Returns 404 if the student ID isn't found.
 const deleteStudent = async (req, res) => {
   try {
     const studentId = req.params.id;
